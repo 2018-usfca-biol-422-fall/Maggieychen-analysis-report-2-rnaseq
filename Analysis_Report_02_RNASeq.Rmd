@@ -1,6 +1,6 @@
 ---
 title: "Analysis Report 2: Your Title Here"
-author: "Don Francisco"
+author: "Maggie Chen"
 date: "November 21, 2018"
 output: github_document
 bibliography: references.bib
@@ -62,10 +62,10 @@ stopifnot(exists("joined_table"))
 # subset it down to just a few here to look for interesting patterns
 # in the most highly expressed
 top_15 <- joined_table %>%
-  group_by(gender, genename) %>%
+  group_by(gender, genename, smoking_status, cancer_stage, normal_or_cancer) %>%
   summarize(mean_count = mean(counts_lengthscaledtpm)) %>%
   arrange(desc(mean_count)) %>%
-  head(n = 15)
+  head(n = 30)
 
 # then we can use the `kable()` function to make a nicely formatted
 # markdown table
@@ -75,6 +75,10 @@ top_15 %>%
 
 **Table 1**: The most highly expressed genes in both genders included *SFTPB* and *EEF1A1*.
 
+
+
+
+
 ```{r make-barplot-of-highly-expressed-genes, echo = FALSE}
 # this code uses the same data as above, but use it to make a
 # barplot - remember geom_col() is just like
@@ -82,11 +86,49 @@ top_15 %>%
 top_15 %>%
   ggplot(aes(x = genename,
              y = mean_count,
-             fill = gender)) +
-    geom_col(position = "dodge")
+             fill = cancer_stage)) +
+    geom_col(position = "dodge") +
+  facet_grid(~ smoking_status) +
+   theme(axis.text.x = element_text(angle = 90,
+                         hjust = 1))
 ```
 
 **Figure 1**: Here we show an example figure caption.
+
+```{r }
+# how SFTPC gene expressed in all individuals
+# samples are taking from same pstient fo both normal and cancer tissue
+
+joined_table %>%
+  filter(genename %in% "SFTPC") %>%
+  filter(smoking_status != "unknown") %>%
+  ggplot(aes(x = normal_or_cancer,
+             y = counts_lengthscaledtpm,
+             fill = cancer_stage)) +
+    geom_col(position = "dodge") +
+  facet_grid(~ smoking_status) +
+   theme(axis.text.x = element_text(angle = 90,
+                         hjust = 1))
+```
+
+
+```{r}
+
+joined_table %>%
+  filter(genename == "SFTPC") %>%
+  filter(smoking_status != "unknow") %>%
+  ggplot(aes(x = age_at_diagnosis,
+             y = counts_lengthscaledtpm,
+             color = smoking_status)) +
+  geom_point() +
+  geom_smooth(method = "lm",
+              alpha = 0) +
+  facet_grid(~ normal_or_cancer)
+
+```
+
+
+
 
 ```{r make-boxplot-of-highly-expressed-genes, echo = FALSE}
 # here we just want to pull out the unique gene names and turn

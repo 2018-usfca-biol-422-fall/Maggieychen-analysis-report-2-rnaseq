@@ -116,7 +116,8 @@ joined_table %>%
 
 joined_table %>%
   filter(genename == "SFTPC") %>%
-  filter(smoking_status != "unknow") %>%
+  filter(smoking_status != "unknown") %>%
+  filter(normal_rnaseq == "yes") %>%
   ggplot(aes(x = age_at_diagnosis,
              y = counts_lengthscaledtpm,
              color = smoking_status)) +
@@ -127,7 +128,35 @@ joined_table %>%
 
 ```
 
+```{r}
+joined_table %>%
+  filter(genename == "SFTPC") %>%
+  filter(smoking_status != "unknown") %>%
+  filter(normal_rnaseq == "yes") %>%
+  ggplot(aes(x = age_at_diagnosis,
+             y = counts_lengthscaledtpm,
+             color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm",
+              alpha = 0) +
+  facet_grid(~ normal_or_cancer)
+```
 
+```{r}
+joined_table %>%
+  filter(genename == "SFTPC") %>%
+  filter(smoking_status != "unknown") %>%
+  filter(normal_rnaseq == "yes") %>%
+  ggplot(aes(x = smoking_status,
+             y = counts_lengthscaledtpm,
+             fill = gender,
+             color = gender)) +
+  geom_col() +
+  geom_smooth(method = "lm",
+              alpha = 0) +
+  facet_grid(~ normal_or_cancer)
+```
+```
 
 
 ```{r make-boxplot-of-highly-expressed-genes, echo = FALSE}

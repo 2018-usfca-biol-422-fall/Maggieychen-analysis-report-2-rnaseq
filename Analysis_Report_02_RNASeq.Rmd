@@ -98,21 +98,26 @@ top_15 %>%
 ```{r }
 # how SFTPC gene expressed in all individuals
 # samples are taking from same pstient fo both normal and cancer tissue
+# along with the expression levels in different 
+# cancer stages
 
 joined_table %>%
   filter(genename %in% "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
-  ggplot(aes(x = normal_or_cancer,
+  ggplot(aes(x = smoking_status,
              y = counts_lengthscaledtpm,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
-  facet_grid(~ smoking_status) +
+  facet_grid(~ normal_or_cancer) +
    theme(axis.text.x = element_text(angle = 90,
                          hjust = 1))
 ```
 
 
 ```{r}
+# Still examine the SFTPC gene
+# only for individals has both normal and cancer 
+# tissue sampled, which based on smoking status
 
 joined_table %>%
   filter(genename == "SFTPC") %>%
@@ -127,7 +132,9 @@ joined_table %>%
   facet_grid(~ normal_or_cancer)
 
 ```
-
+Overall, SFTPC gene is highly down regulated in the cancer tissues. But expressed in high levels in normal tissues. Also, along with the smoking status of individals. In cancer tisses, smoking will futher decrease the gene epxression levels along with increment of age at diagnosis. For previous and current smokers, SFTPC gene express in close to zero level and not change along with age change in the cancer tissue. In the cancer tissue from never smoker, the SFTPC expression level remains low, but increase with age increase. In normal tissues, for never smoker, the gene expression levels slightly decrease along with the increase of age. For normal tissues in current smokers, the gene expression is significantly drceased, while age increases. For normal tissue in previous smoker, the gene expression level increase, while age increases. 
+ 
+ 
 ```{r}
 joined_table %>%
   filter(genename == "SFTPC") %>%
@@ -143,20 +150,9 @@ joined_table %>%
 ```
 
 ```{r}
-joined_table %>%
-  filter(genename == "SFTPC") %>%
-  filter(smoking_status != "unknown") %>%
-  filter(normal_rnaseq == "yes") %>%
-  ggplot(aes(x = smoking_status,
-             y = counts_lengthscaledtpm,
-             fill = gender,
-             color = gender)) +
-  geom_col() +
-  geom_smooth(method = "lm",
-              alpha = 0) +
-  facet_grid(~ normal_or_cancer)
+
 ```
-```
+
 
 
 ```{r make-boxplot-of-highly-expressed-genes, echo = FALSE}
@@ -174,12 +170,12 @@ top_genes <- top_15 %>%
 # we don't just want summary data, we want all the data in
 # order to make boxplots
 joined_table %>%
-  filter(genename %in% top_genes) %>%
-  ggplot(aes(x = genename,
+  filter(genename == "SFTPC") %>%
+  ggplot(aes(x = smoking_status,
              y = counts_lengthscaledtpm,
              fill = gender)) +
     geom_boxplot() +
-    facet_wrap(~cancer_stage) +
+    facet_grid(~ cancer_stage) +
     xlab("Gene Name") +
     ylab("Scaled read counts per gene") +
     ggtitle("Read counts per gene by gender and cancer stage") +

@@ -95,8 +95,10 @@ top_genes <- top_15 %>%
 
 joined_table %>%
   filter(genename %in% top_genes) %>%
+  group_by(normal_or_cancer, cancer_stage, genename) %>%
+  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = genename,
-             y = counts_lengthscaledtpm,
+             y = mean_count,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
   facet_grid(~ normal_or_cancer) +
@@ -158,8 +160,10 @@ joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
   filter(normal_rnaseq == "yes") %>%
+  group_by(normal_or_cancer, gender, age_at_diagnosis) %>%
+  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = age_at_diagnosis,
-             y = counts_lengthscaledtpm,
+             y = mean_count,
              color = gender)) +
   geom_point() +
   geom_smooth(method = "lm",
@@ -176,11 +180,13 @@ joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
   filter(normal_rnaseq == "yes") %>%
+  group_by(normal_or_cancer, gender, smoking_status,cancer_stage) %>%
+  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = cancer_stage,
-             y = counts_lengthscaledtpm,
+             y = mean_count,
              fill = gender,
              color = gender)) +
-  geom_col() +
+  geom_col(position = "dodge") +
   facet_grid(~ smoking_status)
 
 

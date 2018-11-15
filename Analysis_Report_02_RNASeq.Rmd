@@ -62,10 +62,13 @@ stopifnot(exists("joined_table"))
 # subset it down to just a few here to look for interesting patterns
 # in the most highly expressed
 top_15 <- joined_table %>%
-  group_by(gender, genename, smoking_status, cancer_stage, normal_or_cancer) %>%
+  filter(normal_or_cancer == "normal") %>%
+  filter(smoking_status == "never") %>%
+  group_by(genename, cancer_stage, gender) %>%
   summarize(mean_count = mean(counts_lengthscaledtpm)) %>%
   arrange(desc(mean_count)) %>%
-  head(n = 30)
+  head(n = 15)
+
 
 # then we can use the `kable()` function to make a nicely formatted
 # markdown table
@@ -83,13 +86,21 @@ top_15 %>%
 # this code uses the same data as above, but use it to make a
 # barplot - remember geom_col() is just like
 # when you use geom_bar(stat = "identity")
-top_15 %>%
+top_genes <- top_15 %>%
+  ungroup() %>%
+  select(genename) %>%
+  unique() %>%
+  pull()
+
+
+joined_table %>%
+  filter(genename %in% top_genes) %>%
   ggplot(aes(x = genename,
-             y = mean_count,
+             y = counts_lengthscaledtpm,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
-  facet_grid(~ smoking_status) +
-   theme(axis.text.x = element_text(angle = 90,
+  facet_grid(~ normal_or_cancer) +
+  theme(axis.text.x = element_text(angle = 90,
                          hjust = 1))
 ```
 
@@ -123,8 +134,10 @@ joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
   filter(normal_rnaseq == "yes") %>%
+  group_by(normal_or_cancer, smoking_status, age_at_diagnosis) %>%
+  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = age_at_diagnosis,
-             y = counts_lengthscaledtpm,
+             y = mean_count,
              color = smoking_status)) +
   geom_point() +
   geom_smooth(method = "lm",
@@ -136,6 +149,11 @@ Overall, SFTPC gene is highly down regulated in the cancer tissues. But expresse
  
  
 ```{r}
+
+# How is the SFTPC gene expressed in cancer and normal tisse
+# and how this differenct in each gender
+# with age at daignosis as the disceret factor
+
 joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
@@ -150,6 +168,21 @@ joined_table %>%
 ```
 
 ```{r}
+
+# How is the sample distribution of gender
+# within each cancer stages
+
+joined_table %>%
+  filter(genename == "SFTPC") %>%
+  filter(smoking_status != "unknown") %>%
+  filter(normal_rnaseq == "yes") %>%
+  ggplot(aes(x = cancer_stage,
+             y = counts_lengthscaledtpm,
+             fill = gender,
+             color = gender)) +
+  geom_col() +
+  facet_grid(~ smoking_status)
+
 
 ```
 

@@ -81,7 +81,7 @@ top_15 %>%
 
 
 
-```{r make-histogram-of-highly-expressed-genes, echo = FALSE}
+```{r make-barplot-of-highly-expressed-genes, echo = FALSE}
 # Use the higly expressed gene in
 # never smoker's normal tissue found above 
 # to generate a histogram of how those genes are expressed 
@@ -117,7 +117,7 @@ joined_table %>%
 
 **Figure 1**: The average gene expression levels in cancer and normal tissues. Catagorized by smoking status, and colored by cancer stages. All four genes are highly expressed in the normal tissues, but they have different average expression levels in cancer tissues, and different cancer stages. EEF1A1 gene is relativly highly expressed in the cancer tisse. SFTPA1, SFTPA2, and SFTPC is downregulated in cancer tissues, in almost all cancer stages. SFTPC is mostly down regulated throughout all cancer stages. 
 
-```{r histogram-of-SFTPC-expression-levels}
+```{r barplot-of-SFTPC-expression-levels-smoking-cancer_stage}
 # how SFTPC gene is expressed in all individuals(mean count of gene expression)
 # samples from patients' both normal and cancer tissues
 # along with the expression levels in different 
@@ -138,7 +138,7 @@ joined_table %>%
 ```
 **Figure2**:
 
-```{r scatteredplot-of-SFTPC-expression-smoking-age}
+```{r scatterplot-of-SFTPC-expression-smoking-age}
 # Examine the average expression levels of SFTPC gene
 # only for individals has both normal and cancer 
 # tissue sampled, which based on smoking status
@@ -162,7 +162,7 @@ joined_table %>%
 **Figure3**: Overall, SFTPC gene is highly down regulated in the cancer tissues. But highly expressed in normal tissues. Also, along with the smoking status of individals. In cancer tisses, smoking will futher decrease the gene epxression levels along with increment of age at diagnosis. For previous and current smokers, SFTPC gene express in close to zero level and not change along with age change in the cancer tissue. In the cancer tissue from never smoker, the SFTPC expression level remains low, but increase with age increase. In normal tissues, for never smoker, the gene expression levels slightly decrease along with the increase of age. For normal tissues in current smokers, the gene expression is significantly drceased, while age increases. For normal tissue in previous smoker, the gene expression level increase, while age increases. 
  
  
-```{r scatteredplot-of-SFTPC-gene-expression-gender-age}
+```{r scatterplot-of-SFTPC-gene-expression-gender-age}
 
 # How is the SFTPC gene expressed in cancer and normal tisse
 # and how this differenct in each gender
@@ -184,7 +184,7 @@ joined_table %>%
 ```
 **Figure3**:
 
-```{r histogram-of-sample-dsitribution}
+```{r barplot-of-sample-dsitribution-in-gender}
 
 # To indicate the sample distribution of gender
 # within each cancer stages and smoking status

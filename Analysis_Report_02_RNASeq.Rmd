@@ -57,10 +57,10 @@ load("output/final_compiled_counts/joined_count_data.RData")
 stopifnot(exists("joined_table"))
 ```
 
-```{r make-summary-table, echo = FALSE}
-# There are many many genes in this dataset, so we can
-# subset it down to just a few here to look for interesting patterns
-# in the most highly expressed
+```{r normal-never-table, echo = FALSE}
+# summary table of gene expression levels in the noraml tissue
+# also, from never smokers
+# The most highly expressed gene is listed in the talbe
 top_15 <- joined_table %>%
   filter(normal_or_cancer == "normal") %>%
   filter(smoking_status == "never") %>%
@@ -70,31 +70,38 @@ top_15 <- joined_table %>%
   head(n = 15)
 
 
-# then we can use the `kable()` function to make a nicely formatted
+# then use the `kable()` function to make a nicely formatted
 # markdown table
 top_15 %>%
   kable()
 ```
 
-**Table 1**: The most highly expressed genes in both genders included *SFTPB* and *EEF1A1*.
-
+**Table 1**: 
 
 
 
 
 ```{r make-barplot-of-highly-expressed-genes, echo = FALSE}
-# this code uses the same data as above, but use it to make a
-# barplot - remember geom_col() is just like
-# when you use geom_bar(stat = "identity")
+# Use the higly expressed gene in
+# never smoker's normal tissue found above 
+# to generate a histogram of how those genes are expressed 
+# in both normal and cancer tissue 
+
+
+# To subest the gene nemaes found above
 top_genes <- top_15 %>%
   ungroup() %>%
   select(genename) %>%
   unique() %>%
   pull()
 
+# To generate a table use the mean count of gene expression
+# also factors of cancer stages and tissue types
 
 joined_table %>%
   filter(genename %in% top_genes) %>%
+  filter(cancer_stage != "unknown") %>% 
+  # exclude samples has unknown stages
   group_by(normal_or_cancer, cancer_stage, genename) %>%
   summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = genename,
@@ -106,19 +113,21 @@ joined_table %>%
                          hjust = 1))
 ```
 
-**Figure 1**: Here we show an example figure caption.
+**Figure 1**: The average gene expression levels in cancer and normal tissues. Catagorized by smoking status, and colored by cancer stages. All four genes are highly expressed in the normal tissues, but they have different average expression levels in cancer tissues, and different cancer stages. EEF1A1 gene is relativly highly expressed in the cancer tisse. SFTPA1, SFTPA2, and SFTPC is downregulated in cancer tissues, in almost all cancer stages. SFTPC is mostly down regulated throughout all cancer stages. 
 
 ```{r }
-# how SFTPC gene expressed in all individuals
-# samples are taking from same pstient fo both normal and cancer tissue
+# how SFTPC gene expressed in all individuals(sum)
+# samples are taking from same patients for both normal and cancer tissue
 # along with the expression levels in different 
 # cancer stages
 
 joined_table %>%
   filter(genename %in% "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
+  group_by(normal_or_cancer, cancer_stage, smoking_status) %>%
+  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = smoking_status,
-             y = counts_lengthscaledtpm,
+             y = mean_count,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
   facet_grid(~ normal_or_cancer) +

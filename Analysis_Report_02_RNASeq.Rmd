@@ -200,7 +200,8 @@ joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
   filter(normal_rnaseq == "yes") %>%
-  group_by(normal_or_cancer, gender, smoking_status, cancer_stage, age_at_diagnosis) %>%
+  group_by(normal_or_cancer, gender, smoking_status,
+           cancer_stage, age_at_diagnosis) %>%
   summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = age_at_diagnosis,
              y = mean_count,

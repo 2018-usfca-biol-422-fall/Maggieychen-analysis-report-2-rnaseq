@@ -102,7 +102,7 @@ top_genes <- top_15 %>%
 
 joined_table %>%
   filter(genename %in% top_genes) %>%
-  filter(cancer_stage != "unknown") %>% 
+  filter(cancer_stage != "unknown") %>%
   # exclude samples has unknown stages
   group_by(normal_or_cancer, cancer_stage, genename) %>%
   summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
@@ -194,7 +194,7 @@ joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
   filter(normal_rnaseq == "yes") %>%
-  group_by(normal_or_cancer, gender, smoking_status,cancer_stage) %>%
+  group_by(normal_or_cancer, gender, smoking_status, cancer_stage) %>%
   summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = cancer_stage,
              y = mean_count,

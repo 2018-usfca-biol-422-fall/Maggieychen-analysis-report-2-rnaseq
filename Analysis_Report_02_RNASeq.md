@@ -136,23 +136,24 @@ joined_table %>%
   filter(genename == "SFTPC") %>%
   filter(smoking_status != "unknown") %>%
   filter(normal_rnaseq == "yes") %>%
-  filter(normal_or_cancer == "normal") %>%
-  group_by(normal_or_cancer, gender, smoking_status, cancer_stage, age_at_diagnosis) %>%
+  group_by(normal_or_cancer, gender, smoking_status,
+           cancer_stage, age_at_diagnosis) %>%
   summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
   ggplot(aes(x = age_at_diagnosis,
              y = mean_count,
-             color = smoking_status)) +
+             color = smoking_status,
+             shape = normal_or_cancer)) +
   geom_point() +
    geom_smooth(method = "lm",
               alpha = 0) +
   facet_grid(~ gender)
 ```
 
-![](Analysis_Report_02_RNASeq_files/figure-markdown_github/scaterplot-of-expression-level-of-gender-age-smoking-1.png) **Figure4**:
+![](Analysis_Report_02_RNASeq_files/figure-markdown_github/scaterplot-of-expression-level-of-gender-age-smoking-1.png)
+
+**Figure4**:
 
 ![](Analysis_Report_02_RNASeq_files/figure-markdown_github/make-boxplot-of-highly-expressed-genes-1.png)
-
-**Figure 2**: Here we show another example figure caption.
 
 Discussion
 ==========

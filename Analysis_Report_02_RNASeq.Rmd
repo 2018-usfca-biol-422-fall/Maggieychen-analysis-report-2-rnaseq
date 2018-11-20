@@ -64,7 +64,7 @@ stopifnot(exists("joined_table"))
 top_15 <- joined_table %>%
   filter(normal_or_cancer == "normal") %>%
   filter(smoking_status == "never") %>%
-  group_by(genename, cancer_stage, gender) %>%
+  group_by(genename, cancer_stage) %>%
   summarize(mean_count = mean(counts_lengthscaledtpm)) %>%
   arrange(desc(mean_count)) %>%
   head(n = 15)
@@ -165,31 +165,6 @@ joined_table %>%
 
 **Figure3**: Overall, SFTPC gene is highly down regulated in the cancer tissues. But highly expressed in normal tissues. Also, along with the smoking status of individuals. In cancer tissues, smoking will further decrease the gene expression levels along with increment of age at diagnosis. For previous and current smokers, SFTPC gene express in close to zero level and not change along with age change in the cancer tissue. In the cancer tissue from never smoker, the SFTPC expression level remains low, but increase with age increase. In normal tissues, for never smoker, the gene expression levels slightly decrease along with the increase of age. For normal tissues in current smokers, the gene expression is significantly decreased, while age increases. For normal tissue in previous smoker, the gene expression level increase, while age increases. 
  
- 
-
- 
-```{r scatterplot-of-SFTPC-gene-expression-gender-age}
-
-# How is the SFTPC gene expressed in cancer and normal tisse
-# and how this differenct in each gender
-# with age at daignosis as the disceret factor
-
-joined_table %>%
-  filter(genename == "SFTPC") %>%
-  filter(smoking_status != "unknown") %>%
-  filter(normal_rnaseq == "yes") %>%
-  group_by(normal_or_cancer, gender, age_at_diagnosis) %>%
-  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
-  ggplot(aes(x = age_at_diagnosis,
-             y = mean_count,
-             color = gender)) +
-  geom_point() +
-  geom_smooth(method = "lm",
-              alpha = 0) +
-  facet_grid(~ normal_or_cancer)
-```
-
-**Figure3**: Firstly, for both male and female, SFTPC gene is down regulated in cancer tissue. In spit of, of the smoking stuats. In the cancer tisse, female has a increase trending of gene expression along with the increase of age, in contrast, male has a decrase gene expression level along with the age increase. As for the normal tissue, both male and female has an increase of SFTPC gene expression levels. Also, male has a higher average gene expression levels than females. 
 
 
 ```{r scaterplot-of-expression-level-of-gender-age-smoking}

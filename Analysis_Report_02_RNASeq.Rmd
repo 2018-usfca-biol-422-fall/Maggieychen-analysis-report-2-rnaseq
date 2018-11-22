@@ -76,7 +76,7 @@ top_15 %>%
   kable()
 ```
 
-**Table 1**: 
+**Table 1**: Top fifteen genes that is most highly expressed in never smoker's normal tissue.
 
 
 
@@ -199,7 +199,7 @@ joined_table %>%
              shape = normal_or_cancer)) +
    xlab("Age at Diagnosis") +
   ylab("Mean Expression Level") +
-  ggtitle("SFTPC Expression Level assosiate with Age, Gendner and Smoking") +
+  ggtitle("SFTPC Expression Level assosiate with Age, Gender and Smoking") +
   geom_point() +
    theme_bw() +
    geom_smooth(method = "lm",

@@ -28,23 +28,23 @@ Results
 
 In addition to a minimum of 4-5 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion.
 
-| genename | cancer\_stage | gender |  mean\_count|
-|:---------|:--------------|:-------|------------:|
-| SFTPC    | 3A            | male   |     410927.2|
-| SFTPA2   | 3A            | male   |     384618.0|
-| EEF1A1   | 3B            | female |     332712.5|
-| SFTPA2   | 4             | female |     324913.2|
-| SFTPC    | 2A            | female |     302853.6|
-| SFTPA1   | 3A            | male   |     289754.2|
-| EEF1A1   | 1A            | male   |     283534.1|
-| SFTPC    | 4             | female |     278802.0|
-| SFTPA2   | 1B            | male   |     278340.9|
-| EEF1A1   | NA            | female |     273005.1|
-| EEF1A1   | 3A            | male   |     255142.5|
-| SFTPC    | NA            | female |     249256.1|
-| SFTPC    | 1B            | male   |     243327.8|
-| EEF1A1   | 1B            | female |     241703.4|
-| SFTPC    | 1A            | male   |     227488.9|
+| genename | cancer\_stage |  mean\_count|
+|:---------|:--------------|------------:|
+| SFTPC    | 3A            |     410927.2|
+| SFTPA2   | 3A            |     384618.0|
+| EEF1A1   | 3B            |     332712.5|
+| SFTPA2   | 4             |     324913.2|
+| SFTPC    | 2A            |     302853.6|
+| SFTPA1   | 3A            |     289754.2|
+| SFTPC    | 4             |     278802.0|
+| EEF1A1   | NA            |     273005.1|
+| EEF1A1   | 3A            |     255142.5|
+| SFTPC    | NA            |     249256.1|
+| EEF1A1   | 1B            |     237772.8|
+| SFTPA1   | 4             |     219476.8|
+| SFTPC    | 3B            |     218549.3|
+| SFTPA2   | 3B            |     217719.4|
+| SFTPB    | 3A            |     215765.9|
 
 **Table 1**:
 
@@ -68,7 +68,11 @@ joined_table %>%
              y = mean_count,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
+  xlab("Smoking Status") +
+  ylab("Mean Expression Level") +
+  ggtitle("SFTPC Expression Levels in Different Cancer and Smoking Status") +
   facet_grid(~ normal_or_cancer) +
+   theme_bw() +
    theme(axis.text.x = element_text(angle = 90,
                          hjust = 1))
 ```
@@ -92,7 +96,11 @@ joined_table %>%
   ggplot(aes(x = age_at_diagnosis,
              y = mean_count,
              color = smoking_status)) +
+  xlab("Age at Diagnosis") +
+  ylab("Mean Expression Level") +
+  ggtitle("SFTPC Expression Levels Variants in Age and Smoking Status") +
   geom_point() +
+   theme_bw() +
   geom_smooth(method = "lm",
               alpha = 0) +
   facet_grid(~ normal_or_cancer)
@@ -101,30 +109,6 @@ joined_table %>%
 ![](Analysis_Report_02_RNASeq_files/figure-markdown_github/scatterplot-of-SFTPC-expression-smoking-age-1.png)
 
 **Figure3**: Overall, SFTPC gene is highly down regulated in the cancer tissues. But highly expressed in normal tissues. Also, along with the smoking status of individuals. In cancer tissues, smoking will further decrease the gene expression levels along with increment of age at diagnosis. For previous and current smokers, SFTPC gene express in close to zero level and not change along with age change in the cancer tissue. In the cancer tissue from never smoker, the SFTPC expression level remains low, but increase with age increase. In normal tissues, for never smoker, the gene expression levels slightly decrease along with the increase of age. For normal tissues in current smokers, the gene expression is significantly decreased, while age increases. For normal tissue in previous smoker, the gene expression level increase, while age increases.
-
-``` r
-# How is the SFTPC gene expressed in cancer and normal tisse
-# and how this differenct in each gender
-# with age at daignosis as the disceret factor
-
-joined_table %>%
-  filter(genename == "SFTPC") %>%
-  filter(smoking_status != "unknown") %>%
-  filter(normal_rnaseq == "yes") %>%
-  group_by(normal_or_cancer, gender, age_at_diagnosis) %>%
-  summarise(mean_count = mean(counts_lengthscaledtpm)) %>%
-  ggplot(aes(x = age_at_diagnosis,
-             y = mean_count,
-             color = gender)) +
-  geom_point() +
-  geom_smooth(method = "lm",
-              alpha = 0) +
-  facet_grid(~ normal_or_cancer)
-```
-
-![](Analysis_Report_02_RNASeq_files/figure-markdown_github/scatterplot-of-SFTPC-gene-expression-gender-age-1.png)
-
-**Figure3**: Firstly, for both male and female, SFTPC gene is down regulated in cancer tissue. In spit of, of the smoking stuats. In the cancer tisse, female has a increase trending of gene expression along with the increase of age, in contrast, male has a decrase gene expression level along with the age increase. As for the normal tissue, both male and female has an increase of SFTPC gene expression levels. Also, male has a higher average gene expression levels than females.
 
 ``` r
 # Due to Figure2, 3 has different trending of SFTPC gene expression
@@ -143,7 +127,11 @@ joined_table %>%
              y = mean_count,
              color = smoking_status,
              shape = normal_or_cancer)) +
+   xlab("Age at Diagnosis") +
+  ylab("Mean Expression Level") +
+  ggtitle("SFTPC Expression Level assosiate with Age, Gendner and Smoking") +
   geom_point() +
+   theme_bw() +
    geom_smooth(method = "lm",
               alpha = 0) +
   facet_grid(~ gender)

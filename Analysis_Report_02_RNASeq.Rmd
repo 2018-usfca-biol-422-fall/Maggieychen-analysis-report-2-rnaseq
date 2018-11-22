@@ -214,38 +214,6 @@ joined_table %>%
 
 
 
-
-```{r make-boxplot-of-highly-expressed-genes, echo = FALSE}
-# here we just want to pull out the unique gene names and turn
-# them into a vector so we can use it below to make a boxplot
-# we use the pull() funtion to get this as a vector, just like
-# we did when making histograms several weeks ago
-top_genes <- top_15 %>%
-  ungroup() %>%
-  select(genename) %>%
-  unique() %>%
-  pull()
-
-# now we need to filter from the full data set again, because
-# we don't just want summary data, we want all the data in
-# order to make boxplots
-joined_table %>%
-  filter(genename == "SFTPC") %>%
-  ggplot(aes(x = smoking_status,
-             y = counts_lengthscaledtpm,
-             fill = gender)) +
-    geom_boxplot() +
-    facet_grid(~ cancer_stage) +
-    xlab("Gene Name") +
-    ylab("Scaled read counts per gene") +
-    ggtitle("Read counts per gene by gender and cancer stage") +
-    theme_bw() + # simplifies theme
-    theme(axis.text.x = # rotates x axis labels vertically
-            element_text(angle = 90,
-                         hjust = 1))
-```
-
-
 # Discussion
 
 Add around 1-2 pages interpreting your results and considering future directions one might take in analyzing these data.

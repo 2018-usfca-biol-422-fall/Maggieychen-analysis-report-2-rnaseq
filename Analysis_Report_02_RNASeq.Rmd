@@ -205,7 +205,6 @@ joined_table %>%
    geom_smooth(method = "lm",
               alpha = 0) +
   facet_grid(~ gender)
-  
 ```
 
 

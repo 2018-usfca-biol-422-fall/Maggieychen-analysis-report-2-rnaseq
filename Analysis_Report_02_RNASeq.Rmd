@@ -110,7 +110,11 @@ joined_table %>%
              y = mean_count,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
+  xlab("Genename") +
+  ylab("Mean Expression Level") +
+  ggtitle("Gene Expression Levels in Different Cancer Stages and Tissue Types") +
   facet_grid(~ normal_or_cancer) +
+  theme_bw() +
   theme(axis.text.x = element_text(angle = 90,
                          hjust = 1))
 ```
@@ -134,7 +138,11 @@ joined_table %>%
              y = mean_count,
              fill = cancer_stage)) +
     geom_col(position = "dodge") +
+  xlab("Smoking Status") +
+  ylab("Mean Expression Level") +
+  ggtitle("Expression Levels of SFTPC Gene in Different Cancer Stages and Smoking Status") +
   facet_grid(~ normal_or_cancer) +
+   theme_bw() +
    theme(axis.text.x = element_text(angle = 90,
                          hjust = 1))
 ```
@@ -156,7 +164,11 @@ joined_table %>%
   ggplot(aes(x = age_at_diagnosis,
              y = mean_count,
              color = smoking_status)) +
+  xlab("Age at Diagnosis") +
+  ylab("Mean Expression Level") +
+  ggtitle("Association of SFTPC Gene Expression Levels with Age and Smoking Status") +
   geom_point() +
+   theme_bw() +
   geom_smooth(method = "lm",
               alpha = 0) +
   facet_grid(~ normal_or_cancer)
@@ -185,7 +197,11 @@ joined_table %>%
              y = mean_count,
              color = smoking_status,
              shape = normal_or_cancer)) +
+   xlab("Age at Diagnosis") +
+  ylab("Mean Expression Level") +
+  ggtitle("Association of SFTPC Gene Expression Levels with Age and Smoking Status in Different Genders") +
   geom_point() +
+   theme_bw() +
    geom_smooth(method = "lm",
               alpha = 0) +
   facet_grid(~ gender)

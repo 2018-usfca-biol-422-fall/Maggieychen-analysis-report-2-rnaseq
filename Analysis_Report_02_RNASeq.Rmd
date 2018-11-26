@@ -84,7 +84,7 @@ top_15 %>%
 ```
 
 **Table 1**: Top fifteen genes that is most highly expressed in never smoker's normal tissues.
-
+The expression levels are measured as the mean count of normalized expression count and then categorized in cancer stages. For never smokers that has stage 3A lung cancer, in their normal tissue the SFTPC gene has the highest average expression level across all samples, then SFTPA2 gene in stage 3A never smokers, and then the EEF1A1 gene in stage 3B never smokers is also relatively highly expressed. Each sample is recognized as an independent individual and grouped into cancer stages which creates some repeated genes in the table.
 
 
 

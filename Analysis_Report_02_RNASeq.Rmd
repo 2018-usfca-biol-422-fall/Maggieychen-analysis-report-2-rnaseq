@@ -1,5 +1,5 @@
 ---
-title: "Analysis Report 2: Your Title Here"
+title: "Smoking will Further Downregulate the SFTPC Expression which Increase the Risk of NSCLC"
 author: "Maggie Chen"
 date: "November 21, 2018"
 output: github_document
@@ -10,8 +10,9 @@ csl: bioinformatics.csl
 *Overall, a single-spaced page is about 500 words. So if the guidelines say half of a page, think about writing around 250 words. You can use the wordcountaddin in RStudio to track your progress.*
 
 # Introduction
-
-Add about 1 page here. Must cite at least 5 peer reviewed articles.
+Lung cancer is the most deadly cancer for both men and women in US, which had exceeded the death rate combination of three most common cancer that is colon, breast and pancreatic cancer [@siegel2014cancer]. There are two main sub-type of lung cancer, small cell lung cancer and non-small cell lung cancer (NSCLC). NSCLC accounts for 85% of all lung cancers. NSCLC is further classified into three types, squamous-cell carcinoma, carcinoma and large-cell carcinoma [@molina2008non]. Adenocarcinoma arise from typeII alveolar cell that forms the small airways. Adenocarcinoma is also the most common lung cancer found in both smoking and non-smoking population which accounts 30-40% of lung cancer regardless of gender and age [@couraud2012lung]. Smoking is the most prevalent risk factor for lung cancer in both male and female population. The length of smoking time and the amount of ciggrattes people smoked is positivly corrolated to the risk of lung cancer [@powell2013association]. Further sutudy has also indicated the differences between smokers and nonsmoker's pathogenetic mechanisms in lung cancer. For example, in adenocarcinoma there is a distinct new molecular pathway in smoker's lung cancer developmet than non-smokers. What's more, those smoking related genomic signiture in NSCLC can help predict the cancer with 74% of accuracy [@massion2008smoking].
+Nowadays, along with the improvement of sequencing techniques, RNA-Seq has become a sufficient method use the deep sequencing technology to profile transcriptome. RNA-Seq has provide a new view of eukaryotic transcriptome complexity. RNA-Seq also enable a percise measurment of levels of transcripts and isoforms [cite].
+Li et al. has found several genes are either downregulated or upregulated in lung cancer tissues(cite) using the data set from Seo et al.. I was primarly interested in the questions of how lung cancer will impact the lung function and the expression levels of the genes that support lung functions in addition to genes identified by Li et al. Thus, in the paper, I mainly fouced on investigate what is impact of smoking on genes that is highly expressed in normal tissue, but downregulated in cancer tissues. Also, whther there is a corrolation between smoking, age and gender on the gene expression level. I have found SFTPC gene is higly downregulated in cancer tissues, which encodes the plumnary-associated surfacant protein C (SPC). SPC is exclusively produced by type II alveolar cells, which prevents lung collapse by lowering the surface tension at air-liqud surface in the lung [@clark2005genetics]. What's more, smoking will cause the further downregulation of SFTPC gene along with the increase of age. However, for previous and never smoker, there is no significan corrolation between age and SFPTC gene expression levels. 
 
 # Methods
 
@@ -25,7 +26,7 @@ These are the methods that were used to process the sequencing data. Should prob
 
 # Results
 
-In addition to a minimum of 4-5 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion.
+First of all, to investiagte the 
 
 ```{r load-libraries, message = FALSE, echo = FALSE}
 # Be sure to install these packages before running this script
@@ -122,7 +123,7 @@ joined_table %>%
 
 **Figure 1**: The average gene expression levels in cancer and normal tissues. Categorized by smoking status, and colored by cancer stages. All four genes are highly expressed in the normal tissues, but they have different average expression levels in cancer tissues, and different cancer stages. EEF1A1 gene is relatively highly expressed in the cancer tissue. SFTPA1, SFTPA2, and SFTPC is down regulated in cancer tissues, in almost all cancer stages. SFTPC is mostly down regulated throughout all cancer stages. 
 
-```{r barplot-of-SFTPC-expression-levels-smoking-cancer_stage}
+```{r barplot-of-SFTPC-expression-levels-smoking-cancer_stage, echo = FALSE}
 # how SFTPC gene is expressed in all individuals(mean count of gene expression)
 # samples from patients' both normal and cancer tissues
 # along with the expression levels in different 
@@ -147,9 +148,9 @@ joined_table %>%
                          hjust = 1))
 ```
 
-**Figure2**: In general, all cancer tissues has SFTPC gene significantly down regulated. Specifically, in never smokers, the SFTPC has showed some persistent to the down regulation in all cancer stages, especially later stages. For current and previous smokers, SFTPC are more down regulated than never smokers, with some outlier. For example, the 1B stage for the current smokers and the 3A stage for the previouslt smokers. 
+**Figure2**: In general, all cancer tissues has SFTPC gene significantly down regulated. Specifically, in never smokers, the SFTPC has showed some persistent to the down regulation in all cancer stages, especially later stages. For current and previous smokers, SFTPC are more down regulated than never smokers, with some outlier. For example, the 1B stage for the current smokers and the 3A stage for the previously smokers. 
 
-```{r scatterplot-of-SFTPC-expression-smoking-age}
+```{r scatterplot-of-SFTPC-expression-smoking-age, echo = FALSE}
 # Examine the average expression levels of SFTPC gene
 # only for individals has both normal and cancer 
 # tissue sampled, which based on smoking status
@@ -179,7 +180,7 @@ joined_table %>%
  
 
 
-```{r scaterplot-of-expression-level-of-gender-age-smoking}
+```{r scaterplot-of-expression-level-of-gender-age-smoking, echo = FALSE}
 
 # Due to Figure2, 3 has different trending of SFTPC gene expression
 # in normal tissues, to investigate this different
